@@ -21,14 +21,17 @@ public class BookService {
     }
 
     public List<Book> getBooksData() {
-        String sql = "select * from books";
+        String sql = """
+            select b.id, b.title, b.price, b.price_old, a."name" from books b
+            left join authors a on b.author_id = a.id
+        """;
         List<Book> books = jdbcTemplate.query(sql, (ResultSet rs, int rowNum) ->{
             Book book = new Book();
             book.setId(rs.getInt("id"));
             book.setTitle(rs.getString("title"));
-            book.setAuthor(rs.getString("author"));
+            book.setAuthor(rs.getString("name"));
             book.setPrice(rs.getString("price"));
-            book.setPriceold(rs.getString("priceOld"));
+            book.setPriceold(rs.getString("price_old"));
             return book;
         });
         Logger.getLogger(BookService.class.getName()).info("*****DEBUG books size: " + books.size());
