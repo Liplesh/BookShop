@@ -1,14 +1,12 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.dto.Author;
 import com.example.BookShopApp.services.AuthorService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/bookshop/authors")
@@ -24,14 +22,21 @@ public class AuthorsPageController {
 
     @GetMapping
     public String authors(Model model) {
-        model.addAttribute("authorData", authorService.getAuthorsData());
+
+        model.addAttribute("groupedAuthors", authorService.getAuthorsGroupedByFirstLetter());
 //        logger.info("***DEBUG AuthorsPageController");
         return "authors/index";
     }
 
-    @PostMapping("/slug")
-    public String authorSlug(@RequestParam(value = "authorId") int authorid, Model model){
-        model.addAttribute("authorBio", authorService.getAuthorBio(authorid));
+    @GetMapping("/slug/{id}")
+    public String authorSlug(@PathVariable Long id, Model model){
+        Author authorById = authorService.getAuthorById(id);
+        if (authorById == null) {
+//            return "redirect:/error"; // или страница 404
+            return "authors/index";
+        }
+        logger.info(authorById.toString());
+        model.addAttribute("author", authorById);
         return "authors/slug";
     }
 }
