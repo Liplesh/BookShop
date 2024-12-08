@@ -34,7 +34,6 @@ public class BookService {
             book.setPriceold(rs.getString("price_old"));
             return book;
         });
-        Logger.getLogger(BookService.class.getName()).info("*****DEBUG books size: " + books.size());
         return new ArrayList<>(books);
     }
 }

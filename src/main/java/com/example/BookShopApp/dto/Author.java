@@ -1,11 +1,21 @@
 package com.example.BookShopApp.dto;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "authors")
 public class Author {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "biography")
     private String bio;
+
+    @OneToMany
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private List<Book> books;
 
     public String getBio() {
@@ -43,8 +53,7 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", books=" + books +
                 '}';
     }

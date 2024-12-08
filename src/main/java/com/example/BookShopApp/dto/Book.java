@@ -1,11 +1,21 @@
 package com.example.BookShopApp.dto;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
+
+    @Transient
     private String author;
-    private String priceold;
+
+    @Column(name = "price_old")
+    private String priceOld;
     private String price;
 
 
@@ -15,7 +25,7 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", priceold='" + priceold + '\'' +
+                ", priceold='" + priceOld + '\'' +
                 ", price='" + price + '\'' +
                 '}';
     }
@@ -45,11 +55,11 @@ public class Book {
     }
 
     public String getPriceold() {
-        return priceold;
+        return priceOld;
     }
 
     public void setPriceold(String priceold) {
-        this.priceold = priceold;
+        this.priceOld = priceold;
     }
 
     public String getPrice() {
