@@ -64,21 +64,6 @@ public class AuthorService {
             book.setPriceold(rs.getString("price_old"));
             return book;
         });
-//        List<Book> books = jdbcTemplate.query(sql, (ResultSet rs, int rowNum) ->{
-//            Book book = new Book();
-//            book.setId(rs.getInt("id"));
-//            Logger.getLogger(BookService.class.getName()).info("*****DEBUG book id: " + rs.getInt("id"));
-//            book.setTitle(rs.getString("title"));
-//            Logger.getLogger(BookService.class.getName()).info("*****DEBUG book title: " + rs.getString("title"));
-//            book.setAuthor(rs.getString("name"));
-//            Logger.getLogger(BookService.class.getName()).info("*****DEBUG book name: " + rs.getString("name"));
-//            book.setPrice(rs.getString("price"));
-//            Logger.getLogger(BookService.class.getName()).info("*****DEBUG book price: " + rs.getString("price"));
-//            book.setPriceold(rs.getString("price_old"));
-//            Logger.getLogger(BookService.class.getName()).info("*****DEBUG book price_old: " + rs.getString("price_old"));
-//            return book;
-//        }, params);
-//        Logger.getLogger(BookService.class.getName()).info("*****DEBUG books size: " + books.size());
         return new ArrayList<>(books);
     }
 
