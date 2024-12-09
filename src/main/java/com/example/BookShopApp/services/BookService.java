@@ -1,6 +1,7 @@
 package com.example.BookShopApp.services;
 
 import com.example.BookShopApp.dto.Book;
+import com.example.BookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -13,27 +14,19 @@ import java.util.logging.Logger;
 @Service
 public class BookService {
 
-    private JdbcTemplate jdbcTemplate;
+    BookRepository bookRepository;
 
     @Autowired
-    public BookService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getBooksData() {
-        String sql = """
-            select b.id, b.title, b.price, b.price_old, a."name" from books b
-            left join authors a on b.author_id = a.id
-        """;
-        List<Book> books = jdbcTemplate.query(sql, (ResultSet rs, int rowNum) ->{
-            Book book = new Book();
-            book.setId(rs.getInt("id"));
-            book.setTitle(rs.getString("title"));
-            book.setAuthor(rs.getString("name"));
-            book.setPrice(rs.getString("price"));
-            book.setPriceold(rs.getString("price_old"));
-            return book;
-        });
-        return new ArrayList<>(books);
+        return bookRepository.findAll();
+    }
+
+    //Получаем все книги конкретного автора
+    private List<Book> getAuthorBooks(Long authorId) {
+        return bookRepository.findBooksByAuthorId(authorId);
     }
 }

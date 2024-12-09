@@ -14,8 +14,7 @@ public class Author {
     @Column(name = "biography")
     private String bio;
 
-    @OneToMany
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "author")
     private List<Book> books;
 
     public String getBio() {
@@ -54,7 +53,7 @@ public class Author {
     public String toString() {
         return "Author{" +
                 "name='" + name + '\'' +
-                ", books=" + books +
+                ", bio='" + bio + '\'' +
                 '}';
     }
 }

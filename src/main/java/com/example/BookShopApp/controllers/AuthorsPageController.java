@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthorsPageController {
 
     Logger logger = Logger.getLogger(AuthorsPageController.class);
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
     @Autowired
     public AuthorsPageController(AuthorService authorService) {
@@ -22,9 +22,7 @@ public class AuthorsPageController {
 
     @GetMapping
     public String authors(Model model) {
-
         model.addAttribute("groupedAuthors", authorService.getAuthorsGroupedByFirstLetter());
-//        logger.info("***DEBUG AuthorsPageController");
         return "authors/index";
     }
 
@@ -32,7 +30,6 @@ public class AuthorsPageController {
     public String authorSlug(@PathVariable Long id, Model model){
         Author authorById = authorService.getAuthorById(id);
         if (authorById == null) {
-//            return "redirect:/error"; // или страница 404
             return "authors/index";
         }
         logger.info(authorById.toString());

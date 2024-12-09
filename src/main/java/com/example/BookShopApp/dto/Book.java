@@ -11,8 +11,9 @@ public class Book {
     private Integer id;
     private String title;
 
-    @Transient
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private Author author;
 
     @Column(name = "price_old")
     private String priceOld;
@@ -46,11 +47,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
